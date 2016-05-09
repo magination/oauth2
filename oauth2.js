@@ -122,9 +122,10 @@ exports.authorization = [
       return done(null, client, redirectURI);
     });
   }),
-  function(req, res){
+  server.decision()
+  /*function(req, res){
     res.render('dialog', { transactionID: req.oauth2.transactionID, user: req.user, client: req.oauth2.client });
-  }
+  }*/
 ]
 
 // user decision endpoint
@@ -134,10 +135,10 @@ exports.authorization = [
 // client, the above grant middleware configured above will be invoked to send
 // a response.
 
-exports.decision = [
+/*exports.decision = [
   login.ensureLoggedIn(),
   server.decision()
-]
+]*/
 
 
 // token endpoint
