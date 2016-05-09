@@ -7,6 +7,7 @@ var oauth2orize     = require('oauth2orize'),
   db                = require('./db'),
   Client            = require('./db/client'),
   AuthorizationCode = require('./db/authorizationcode'),
+  AccessToken       = require('./db/accesstoken'),
   utils             = require('./utils');
 
 // create OAuth 2.0 server
@@ -53,8 +54,7 @@ server.deserializeClient(function(id, done) {
 server.grant(oauth2orize.grant.code(function(client, redirectURI, user, ares, done) {
   var code = utils.uid(16)
   //db.authorizationCodes.save(code, client.id, redirectURI, user.id, function(err) {
-  new AuthorizationCode(
-    {
+  new AuthorizationCode({
       code: code,
       clientId: client.id,
       redirectURI: redirectURI,
@@ -80,7 +80,15 @@ server.exchange(oauth2orize.exchange.code(function(client, code, redirectURI, do
     if (redirectURI !== authCode.redirectURI) { return done(null, false); }
     if(err) { return done(err); }
 
-    db.accessTokens.save(token, authCode.userId, authCode.clientId, function(err) {
+    var token = utils.uid(256);
+
+    new AccessToken({
+      token: token,
+      userId: authCode.userId,
+      clientId: authCode.clientId
+    }).save(function(err) {
+      console.log("SAVING");
+      console.log(err);
       if (err) { return done(err); }
         done(null, token);
     });

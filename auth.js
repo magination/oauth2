@@ -8,6 +8,7 @@ var passport              = require('passport'),
   BearerStrategy          = require('passport-http-bearer').Strategy,
   db                      = require('./db'),
   User                    = require('./db/user'),
+  AccessToken             = require('./db/accesstoken'),
   Client                  = require('./db/client');
 
 
@@ -94,11 +95,12 @@ passport.use(new ClientPasswordStrategy(
  */
 passport.use(new BearerStrategy(
   function(accessToken, done) {
-    db.accessTokens.find(accessToken, function(err, token) {
+    AccessToken.findOne({token: accessToken}, function(err, token) {
+      console.log(err, token);
       if (err) { return done(err); }
       if (!token) { return done(null, false); }
       
-      User.findById(token.userID, function(err, user) {
+      User.findById(token.userId, function(err, user) {
         if (err) { return done(err); }
         if (!user) { return done(null, false); }
         // to keep this example simple, restricted scopes are not implemented,
