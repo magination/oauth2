@@ -11,8 +11,6 @@ var users = [
 var userSchema = new mongoose.Schema({
   username: {type: String, required: true, unique: true},
   email: {type: String, required: true, unique: true},
-  // Should make it so I only use username and not name
-  // name: {type: String, required: true},
   password: {type: String, required: true},
   isAdmin: {type: Boolean, required: true, default: false}
 })

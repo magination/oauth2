@@ -1,12 +1,13 @@
 /**
  * Module dependencies.
  */
-var oauth2orize = require('oauth2orize'),
-  passport = require('passport'),
-  login = require('connect-ensure-login'),
-  db = require('./db'),
-  Client = require('./db/client')
-  utils = require('./utils');
+var oauth2orize     = require('oauth2orize'),
+  passport          = require('passport'),
+  login             = require('connect-ensure-login'),
+  db                = require('./db'),
+  Client            = require('./db/client'),
+  AuthorizationCode = require('./db/authorizationcode'),
+  utils             = require('./utils');
 
 // create OAuth 2.0 server
 var server = oauth2orize.createServer();
@@ -51,11 +52,17 @@ server.deserializeClient(function(id, done) {
 
 server.grant(oauth2orize.grant.code(function(client, redirectURI, user, ares, done) {
   var code = utils.uid(16)
-  
-  db.authorizationCodes.save(code, client.id, redirectURI, user.id, function(err) {
-    if (err) { return done(err); }
-    done(null, code);
-  });
+  //db.authorizationCodes.save(code, client.id, redirectURI, user.id, function(err) {
+  new AuthorizationCode(
+    {
+      code: code,
+      clientId: client.id,
+      redirectURI: redirectURI,
+      userId: user.id
+    }).save(function(err) {  
+      if (err) { return done(err); }
+      done(null, code);
+    });
 }));
 
 // Exchange authorization codes for access tokens.  The callback accepts the
@@ -65,21 +72,20 @@ server.grant(oauth2orize.grant.code(function(client, redirectURI, user, ares, do
 // code.
 
 server.exchange(oauth2orize.exchange.code(function(client, code, redirectURI, done) {
-  db.authorizationCodes.find(code, function(err, authCode) {
+  //db.authorizationCodes.find(code, function(err, authCode) {
+  AuthorizationCode.findOne({code: code}, function(err, authCode) {
     if (err) { return done(err); }
     if (authCode === undefined) { return done(null, false); }
-    if (client.id !== authCode.clientID) { return done(null, false); }
+    if (client.id !== authCode.clientId) { return done(null, false); }
     if (redirectURI !== authCode.redirectURI) { return done(null, false); }
+    if(err) { return done(err); }
 
-      db.authorizationCodes.delete(code, function(err) {
-        if(err) { return done(err); }
-        var token = utils.uid(256);
-        console.log("creating token");
-        db.accessTokens.save(token, authCode.userID, authCode.clientID, function(err) {
-          if (err) { return done(err); }
-            done(null, token);
-        });
-      });
+    db.accessTokens.save(token, authCode.userId, authCode.clientId, function(err) {
+      if (err) { return done(err); }
+        done(null, token);
+    });
+
+    AuthorizationCode.findOne({code: code}).remove().exec();
   });
 }));
 

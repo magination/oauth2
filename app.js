@@ -43,13 +43,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.json({type: 'application/vnd.api+json'}));
 app.use(bodyParser.urlencoded({extended: true}));
 
-app.use(function(req, res, next) {
+/*app.use(function(req, res, next) {
   console.log('-- session --');
   console.dir(req.session);
   //console.log(util.inspect(req.session, true, 3));
   console.log('-------------');
   next()
-});
+});*/
 
 app.use(passport.initialize());
 app.use(passport.session());
