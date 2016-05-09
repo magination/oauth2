@@ -1,4 +1,4 @@
-/* var mongoose = require('mongoose');
+var mongoose = require('mongoose');
 
 var clientSchema = new mongoose.Schema({
   name: {type: String, required: true, unique: true},
@@ -6,9 +6,9 @@ var clientSchema = new mongoose.Schema({
   clientSecret: {type: String, required: true}
 })
 
-module.exports = mongoose.model('client', clientSchema); */
+module.exports = mongoose.model('client', clientSchema);
 
-var clients = [
+/*var clients = [
     { id: '1', name: 'Samplr', clientId: 'abc123', clientSecret: 'ssh-secret' },
     { id: '2', name: 'Nodebb', clientId: 'abcde', clientSecret: 'ssh-secret' },
 ];
@@ -33,3 +33,4 @@ exports.findByClientId = function(clientId, done) {
   }
   return done(null, null);
 };
+*/

@@ -29,8 +29,7 @@ server.serializeClient(function(client, done) {
 });
 
 server.deserializeClient(function(id, done) {
-  //Client.findById(id, function(err, client) {
-  db.client.find(id, function(err, client) {
+  Client.findById(id, function(err, client) {
     if (err) { return done(err); }
     return done(null, client);
   });
@@ -105,8 +104,7 @@ server.exchange(oauth2orize.exchange.code(function(client, code, redirectURI, do
 exports.authorization = [
   login.ensureLoggedIn(),
   server.authorization(function(clientID, redirectURI, done) {
-    //Client.findOne({clientId: clientID}, function(err, client) {
-    db.client.findByClientId(clientID, function(err, client) {
+    Client.findOne({clientId: clientID}, function(err, client) {
       if (err) { return done(err); }
       // WARNING: For security purposes, it is highly advisable to check that
       //          redirectURI provided by the client matches one registered with

@@ -63,10 +63,7 @@ passport.deserializeUser(function(id, done) {
  */
 passport.use(new BasicStrategy(
   function(username, password, done) {
-    console.log(username);
-    console.log(password);
-    //Client.find({clientId: username}, function(err, client) {
-    db.client.findByClientId(username, function(err, client) {
+    Client.find({clientId: username}, function(err, client) {
       if (err) { return done(err); }
       if (!client) { return done(null, false); }
       if (client.clientSecret != password) { return done(null, false); }
@@ -77,8 +74,7 @@ passport.use(new BasicStrategy(
 
 passport.use(new ClientPasswordStrategy(
   function(clientId, clientSecret, done) {
-    //Client.find({clientId: clientId}, function(err, client) {
-    Client.findByClientId(clientId, function(err, client) {
+    Client.findOne({clientId: clientId}, function(err, client) {
       if (err) { return done(err); }
       if (!client) { return done(null, false); }
       if (client.clientSecret != clientSecret) { return done(null, false); }
