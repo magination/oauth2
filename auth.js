@@ -6,10 +6,9 @@ var passport              = require('passport'),
   BasicStrategy           = require('passport-http').BasicStrategy,
   ClientPasswordStrategy  = require('passport-oauth2-client-password').Strategy,
   BearerStrategy          = require('passport-http-bearer').Strategy,
-  db                      = require('./db'),
-  User                    = require('./db/user'),
-  AccessToken             = require('./db/accesstoken'),
-  Client                  = require('./db/client');
+  User                    = require('./models/user'),
+  AccessToken             = require('./models/accesstoken'),
+  Client                  = require('./models/client');
 
 
 /**
@@ -79,7 +78,6 @@ passport.use(new ClientPasswordStrategy(
       if (err) { return done(err); }
       if (!client) { return done(null, false); }
       if (client.clientSecret != clientSecret) { return done(null, false); }
-      console.log(client);
       return done(null, client);
     });
   }
@@ -96,7 +94,6 @@ passport.use(new ClientPasswordStrategy(
 passport.use(new BearerStrategy(
   function(accessToken, done) {
     AccessToken.findOne({token: accessToken}, function(err, token) {
-      console.log(err, token);
       if (err) { return done(err); }
       if (!token) { return done(null, false); }
       

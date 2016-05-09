@@ -11,7 +11,7 @@ var express     = require('express'),
   session       = require('express-session'),
   mongoose      = require('mongoose'),
   MongoDBStore  = require('connect-mongodb-session')(session),
-  User          = require('./db/user'),
+  User          = require('./models/user'),
   router        = require('./routes');
   
 mongoose.connect('mongodb://localhost/oauth2');
