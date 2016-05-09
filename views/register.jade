@@ -1,7 +1,8 @@
 extend layout
 
 block content
-	.col-md-6.col-md-offset-3
+	.container
+		!= messages()
 		form(name="register", action="/register", method="post", data-toggle="validator", role="form")
 			h2.form-signing-heading Register
 			div.form-group

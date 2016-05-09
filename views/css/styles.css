@@ -1,4 +1,16 @@
+li {
+	list-style-type: none;
+}
+
 .container {
 	width: 380px;
 	text-align: center;
+}
+
+.success {
+	color: green;
+}
+
+.error {
+	color: red;
 }

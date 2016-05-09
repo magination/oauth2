@@ -2,6 +2,7 @@ extend layout
 
 block content
 	.container
+		!= messages()
 		form(action="/login" method="post")
 			h2.form-signin-heading Please sign in
 			div.form-group

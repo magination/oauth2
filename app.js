@@ -11,6 +11,7 @@ var express     = require('express'),
   session       = require('express-session'),
   mongoose      = require('mongoose'),
   MongoDBStore  = require('connect-mongodb-session')(session),
+  flashMessage  = require('connect-flash')(),
   User          = require('./models/user'),
   router        = require('./routes');
   
@@ -38,6 +39,12 @@ app.use(session({
   },
   store: store
 }));
+
+app.use(flashMessage);
+app.use(function(req, res, next) {
+  res.locals.messages = require('express-messages')(req, res);
+  next();
+});
 
 app.use(bodyParser.json());
 app.use(bodyParser.json({type: 'application/vnd.api+json'}));

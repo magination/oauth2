@@ -32,9 +32,9 @@ passport.use(new LocalStrategy(
           if (!result) {
             return done(null, false);
           }
-        })
 
-      return done(null, user);
+          return done(null, user);
+        })
     });
   }
 ));
