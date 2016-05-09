@@ -5,6 +5,7 @@ var oauth2orize = require('oauth2orize'),
   passport = require('passport'),
   login = require('connect-ensure-login'),
   db = require('./db'),
+  Client = require('./db/client')
   utils = require('./utils');
 
 // create OAuth 2.0 server
@@ -28,7 +29,8 @@ server.serializeClient(function(client, done) {
 });
 
 server.deserializeClient(function(id, done) {
-  db.clients.find(id, function(err, client) {
+  //Client.findById(id, function(err, client) {
+  db.client.find(id, function(err, client) {
     if (err) { return done(err); }
     return done(null, client);
   });
@@ -73,6 +75,7 @@ server.exchange(oauth2orize.exchange.code(function(client, code, redirectURI, do
       db.authorizationCodes.delete(code, function(err) {
         if(err) { return done(err); }
         var token = utils.uid(256);
+        console.log("creating token");
         db.accessTokens.save(token, authCode.userID, authCode.clientID, function(err) {
           if (err) { return done(err); }
             done(null, token);
@@ -102,7 +105,8 @@ server.exchange(oauth2orize.exchange.code(function(client, code, redirectURI, do
 exports.authorization = [
   login.ensureLoggedIn(),
   server.authorization(function(clientID, redirectURI, done) {
-    db.clients.findByClientId(clientID, function(err, client) {
+    //Client.findOne({clientId: clientID}, function(err, client) {
+    db.client.findByClientId(clientID, function(err, client) {
       if (err) { return done(err); }
       // WARNING: For security purposes, it is highly advisable to check that
       //          redirectURI provided by the client matches one registered with

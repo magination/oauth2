@@ -1,4 +1,4 @@
-exports.clients = require('./clients');
+exports.client = require('./client');
 exports.accessTokens = require('./accesstokens');
 exports.authorizationCodes = require('./authorizationcodes');
 

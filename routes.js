@@ -19,10 +19,18 @@ router.get('/', function(req, res) {
 });
 
 router.get('/login', function(req, res) {
-  return res.render('login', {});
+  return res.render('login');
 });
 
 router.post('/login', passport.authenticate('local', { successReturnToOrRedirect: '/', failureRedirect: '/login' }));
+
+router.get('/register', function(req, res) {
+	return res.render('register');
+});
+
+router.post('/register', function(req, res) {
+	return res.render('register');
+});
 
 router.get('/logout', function(req, res) {
   req.logout();
