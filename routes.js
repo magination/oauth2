@@ -22,10 +22,12 @@ router.get('/login', function(req, res) {
   return res.render('login');
 });
 
-router.post('/login', passport.authenticate('local', { successReturnToOrRedirect: '/', failureRedirect: '/login' }));
+router.post('/login', passport.authenticate('local', { successReturnToOrRedirect: process.env.NODEBB, failureRedirect: '/login' }));
 
 router.get('/register', function(req, res) {
-	return res.render('register');
+  console.log(req.query);
+  var callback = req.query.callback;
+	return res.render('register', {callback});
 });
 
 router.post('/register', function(req, res) {

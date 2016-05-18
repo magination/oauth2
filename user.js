@@ -17,6 +17,7 @@ exports.info = [
 ]
 
 exports.create = function(req, res) {
+  console.log(req.body.callback);
   if (!req.body.username || !req.body.password || !req.body.email) {
     req.flash('error', 'You need to fill in username, password and email');
     return res.render('register');
@@ -51,6 +52,6 @@ exports.create = function(req, res) {
     });
 
     req.flash('success', 'User created, log in here');
-    return res.redirect('/login');
+    return res.redirect(req.body.callback);
   });
 }

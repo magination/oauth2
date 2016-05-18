@@ -14,6 +14,8 @@ var express     = require('express'),
   flashMessage  = require('connect-flash')(),
   User          = require('./models/user'),
   router        = require('./routes');
+
+require('dotenv').config();
   
 mongoose.connect('mongodb://localhost/oauth2');
 
