@@ -22,7 +22,7 @@ router.get('/login', function(req, res) {
   return res.render('login');
 });
 
-router.post('/login', passport.authenticate('local', { successReturnToOrRedirect: process.env.NODEBB, failureRedirect: '/login' }));
+router.post('/login', passport.authenticate('local', { successReturnToOrRedirect: '/', failureRedirect: '/login' }));
 
 router.get('/register', function(req, res) {
   console.log(req.query);
