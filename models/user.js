@@ -3,11 +3,6 @@ var bcrypt   = require('bcrypt');
 var promise  = require('bluebird');
 promise.promisifyAll(bcrypt);
 
-var users = [
-    { id: '1', username: 'bob', password: 'secret', name: 'Bob Smith', email: 'bob@secret.com', isAdmin: false },
-    { id: '2', username: 'joe', password: 'password', name: 'Joe Davis' }
-];
-
 var userSchema = new mongoose.Schema({
   username: {type: String, required: true, unique: true},
   email: {type: String, required: true, unique: true},

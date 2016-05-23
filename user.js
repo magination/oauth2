@@ -12,12 +12,11 @@ exports.info = [
     // and used in access control checks.  For illustrative purposes, this
     // example simply returns the scope in the response.
     // var scope = req.authInfo.scope;
-    res.json({ user_id: req.user.id, username: req.user.username, name: req.user.username, email: req.user.email, scope: req.authInfo.scope })
+    res.json({ user_id: req.user.id, username: req.user.username, name: req.user.username, email: req.user.email, isAdmin: req.user.isAdmin, scope: req.authInfo.scope })
   }
 ]
 
 exports.create = function(req, res) {
-  console.log(req.body.callback);
   if (!req.body.username || !req.body.password || !req.body.email) {
     req.flash('error', 'You need to fill in username, password and email');
     return res.render('register');

@@ -15,19 +15,22 @@ router.post('/oauth/token', oauth2.token);
 router.get('/api/userinfo', user.info);
 
 router.get('/', function(req, res) {
-  res.send('OAuth 2.0 Server');
+  res.send('Magination authentication service');
 });
 
 router.get('/login', function(req, res) {
   return res.render('login');
 });
 
-router.post('/login', passport.authenticate('local', { successReturnToOrRedirect: '/', failureRedirect: '/login' }));
+router.post('/login', passport.authenticate('local', {
+  successReturnToOrRedirect: '/', 
+  failureRedirect: '/login' ,
+  failureFlash: 'Invalid username and/or password'})
+);
 
 router.get('/register', function(req, res) {
-  console.log(req.query);
   var callback = req.query.callback;
-	return res.render('register', {callback});
+	return res.render('register', {callback: callback});
 });
 
 router.post('/register', function(req, res) {
@@ -36,7 +39,7 @@ router.post('/register', function(req, res) {
 
 router.get('/logout', function(req, res) {
   req.logout();
-  res.redirect('/');
+  return res.redirect(process.env.NODEBB);
 });
 
 router.get('/account', login.ensureLoggedIn(), function(req, res) {
