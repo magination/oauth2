@@ -1,0 +1,9 @@
+{
+  "apps" : [{
+    "name"        : "Magination-oauth",
+    "script"      : "./app.js",
+    "env": {
+      "NODE_ENV": "production"
+    }
+  }]
+}
