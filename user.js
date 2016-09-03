@@ -16,7 +16,7 @@ exports.info = [
   }
 ]
 
-exports.create = function(req, res) {
+exports.create = function (req, res) {
   if (!req.body.username || !req.body.password || !req.body.email) {
     req.flash('error', 'You need to fill in username, password and email');
     return res.render('register');
@@ -25,9 +25,9 @@ exports.create = function(req, res) {
   User.findOne({
     $or: [
       {username: req.body.username},
-      {email: req.body.email},
+      {email: req.body.email}
     ]
-  }, function(err, user) {
+  }, function (err, user) {
     if (err) {
       req.flash('error', 'Something went wrong, try again later');
       return res.redirect('/register');
@@ -38,19 +38,21 @@ exports.create = function(req, res) {
 
     user = new User({
       username: req.body.username,
+      username_lower: req.body.username.toLowerCase(),
       password: req.body.password,
       email: req.body.email,
       isAdmin: false
     });
 
-    user.save(function(err) {
+    user.save(function (err) {
       if (err) {
         req.flash('error', 'Something went wrong, try again later');
         return res.redirect('/register');
+      } else {
+        req.flash('success', 'User created, log in here');
+        return res.redirect(req.body.callback);
       }
-    });
 
-    req.flash('success', 'User created, log in here');
-    return res.redirect(req.body.callback);
+    });
   });
-}
+};
