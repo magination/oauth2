@@ -6,6 +6,7 @@ var passport 	= require('passport'),
   	router 		= require('express').Router(),
   	oauth2  	= require('./oauth2'),
   	user 			= require('./user');
+    emailRoutes = require('./emailActivation/routes');
 
 
 router.get('/dialog/authorize', oauth2.authorization);
@@ -23,14 +24,13 @@ router.get('/login', function(req, res) {
 });
 
 router.post('/login', passport.authenticate('local', {
-  successReturnToOrRedirect: '/', 
+  successReturnToOrRedirect: '/',
   failureRedirect: '/login' ,
   failureFlash: 'Invalid username and/or password'})
 );
 
 router.get('/register', function(req, res) {
-  var callback = req.query.callback;
-	return res.render('register', {callback: callback});
+	return res.render('register', { redirect: req.query.redirect || '' });
 });
 
 router.post('/register', function(req, res) {
@@ -45,5 +45,7 @@ router.get('/logout', function(req, res) {
 router.get('/account', login.ensureLoggedIn(), function(req, res) {
   res.render('account', { user: req.user });
 });
+
+router.use('/activate', emailRoutes);
 
 module.exports = router;

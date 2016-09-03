@@ -2,7 +2,9 @@
  * Module dependencies.
  */
 var passport  = require('passport'),
-    User      = require('./models/user');
+    User      = require('./models/user'),
+    activationRequest = require('./emailActivation/controllers').request;
+
 
 exports.info = [
   passport.authenticate('bearer', { session: false }),
@@ -44,15 +46,23 @@ exports.create = function (req, res) {
       isAdmin: false
     });
 
-    user.save(function (err) {
+    user.save(function(err, user) {
       if (err) {
         req.flash('error', 'Something went wrong, try again later');
-        return res.redirect('/register');
-      } else {
-        req.flash('success', 'User created, log in here');
-        return res.redirect(req.body.callback);
+        return res.render('register');
       }
-
+      activationRequest(req, res, user._id)
+        .then(()=>{
+          req.flash('success', 'User created, please confirm email');
+          return req.query.redirect ? res.redirect(req.query.redirect) : res.render('register');
+        })
+        .catch((err)=>{
+          req.flash('error', err);
+          return res.render('register');
+        });
     });
+
+
+
   });
 };

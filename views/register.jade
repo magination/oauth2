@@ -3,7 +3,7 @@ extend layout
 block content
 	.container
 		!= messages()
-		form(name="register", action="/register", method="post", data-toggle="validator", role="form")
+		form(name="register", action="/register?redirect=#{redirect}", method="post", data-toggle="validator", role="form")
 			h2.form-signing-heading Register
 			div.form-group
 				label(for='username', style='white-space:pre;')
@@ -23,6 +23,5 @@ block content
 				label(for='passwordRepeat') Confirm password
 				input#passwordRepeat.form-control(name='passwordRepeat' type='password', placeholder='Repeat password', data-match='#password' data-match-error='Ops, the passwords do not match' required='')
 				div(class='help-block with-errors')
-			input(name='callback', type='hidden', value=callback)
 			div.form-group
 				button.btn.btn-lg.btn-primary.btn-block(type='submit', value='register') Registrer

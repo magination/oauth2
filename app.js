@@ -12,18 +12,21 @@ var express     = require('express'),
   mongoose      = require('mongoose'),
   MongoDBStore  = require('connect-mongodb-session')(session),
   flashMessage  = require('connect-flash')(),
-  router        = require('./routes');
+  router        = require('./routes')
+  User          = require('./models/user'),
+  Bluebird      = require('bluebird');
 
 require('dotenv').config();
-  
+
 mongoose.connect('mongodb://localhost/game');
+mongoose.Promise = Bluebird;
 
 var store = new MongoDBStore(
   {
     uri: 'mongodb://localhost/game',
     collection: 'mySessions'
   });
-  
+
 var app = express();
 
 app.set('view engine', 'jade');
