@@ -1,6 +1,7 @@
 /**
  * Module dependencies.
  */
+require('dotenv').config();
 var express     = require('express'),
   passport      = require('passport'),
   oauth2        = require('./oauth2'),
@@ -15,8 +16,6 @@ var express     = require('express'),
   router        = require('./routes')
   User          = require('./models/user'),
   Bluebird      = require('bluebird');
-
-require('dotenv').config();
 
 mongoose.connect('mongodb://localhost/game');
 mongoose.Promise = Bluebird;

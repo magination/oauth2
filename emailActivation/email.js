@@ -1,12 +1,11 @@
 var nodemailer = require('nodemailer');
-
 var mailer = nodemailer.createTransport({
 	host: 'smtp.gmail.com',
 	port: 465,
 	secure: true, // use SSL
 	auth: {
 		user: 'maginationgame@gmail.com',
-		pass: 'Attraction777'
+		pass: process.env.MAIL_PASSWORD
 	}
 });
 
