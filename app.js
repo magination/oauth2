@@ -33,7 +33,7 @@ app.set('view engine', 'jade');
 app.use(express.static('views'));
 app.use(cookieParser());
 app.use(session({
-  secret: process.env.SECRET,
+  secret: process.env.SECRET || 'supersecret',
   resave: false,
   saveUninitialized: true,
   cookie: {
