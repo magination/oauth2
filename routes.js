@@ -62,7 +62,7 @@ router.post('/registered', function(req, res) {
 
     sendAcitvationEmail(req, res, user._id)
     .then(()=>{
-      req.flash('success', 'Email activated');
+      req.flash('success', 'New verification email sent');
       res.render('registered');
     })
     .catch((err) => {

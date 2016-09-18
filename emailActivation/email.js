@@ -22,7 +22,7 @@ module.exports = function(email, subject, message){
 		to: email,
 		from: 'maginationtest@gmail.com',
 		subject: subject,
-		html: message,
-		text: message
+		html: 'Thanks for registering to the Magination community!<br /><br />Follow this link to activate your account: ' + message + '<br /><br />Best regards,<br />The Magination team',
+		text: 'Thanks for registering to the Magination community!\n\nFollow this link to activate your account: ' + message + '\n\nBest regards,\nThe Magination team'
 	});
 };

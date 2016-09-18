@@ -3,9 +3,11 @@ extend layout
 block content
 	.container
 		!= messages()
-		form(name="logIn", action="https://community.maginationgame.com/login", method="get", data-toggle="validator", role="form")
-			div.form-group
-				button.btn.btn-lg.btn-primary.btn-block(type='submit', value='logIn') Log in to the community
-		form(name="resendEmail", action="/registered", method="get", data-toggle="validator", role="form")
-			div.form-group
-				button.btn.btn-lg.btn-primary.btn-block(type='submit', value='resend') Send new email
+		if success
+			form(name="logIn", action="https://community.maginationgame.com/login", method="get", data-toggle="validator", role="form")
+				div.form-group
+					button.btn.btn-lg.btn-primary.btn-block(type='submit', value='logIn') Log in to the community
+		else
+			form(name="resendEmail", action="/registered", method="get", data-toggle="validator", role="form")
+				div.form-group
+					button.btn.btn-lg.btn-primary.btn-block(type='submit', value='resend') Send new email

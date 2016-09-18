@@ -6,11 +6,11 @@ router.get('/:token', function(req, res) {
   controllers.activate(req, res, req.params.token)
   .then(()=>{
     req.flash('success', 'Email activated');
-    res.render('activation');
+    res.render('activation', { success: true});
   })
   .catch((err) => {
     req.flash('error', err);
-    res.render('activation');
+    res.render('activation', { success: false});
   })
 });
 
