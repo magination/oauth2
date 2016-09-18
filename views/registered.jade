@@ -4,7 +4,7 @@ block content
 	.container
 		!= messages()
 		form(name="resendEmail", action="/registered", method="post", data-toggle="validator", role="form")
-			p If you can't find your email, you can try to resend it
+			p If you can't find your email or you link didn't work, you can try to resend it by entering your email here
 			div.form-group
 				label(for='email', style='white-space:pre;')
 					| Email

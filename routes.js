@@ -12,7 +12,6 @@ var passport 	    = require('passport'),
 
 
 router.get('/dialog/authorize', oauth2.authorization);
-//router.post('/dialog/authorize/decision', oauth2.decision);
 router.post('/oauth/token', oauth2.token);
 
 router.get('/api/userinfo', user.info);
@@ -36,7 +35,6 @@ router.get('/register', function(req, res) {
 });
 
 router.post('/register', function(req, res) {
-  req.logout();
   user.create(req, res);
 });
 
