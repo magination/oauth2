@@ -35,3 +35,5 @@ node_modules/
 # Custom
 .DS_Store
 .idea
+.env
+data

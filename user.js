@@ -3,7 +3,8 @@
  */
 var passport  = require('passport'),
     User      = require('./models/user'),
-    activationRequest = require('./emailActivation/controllers').request;
+    activationRequest = require('./emailActivation/controllers').request,
+    bcrypt   = require('bcrypt');
 
 
 exports.info = [
@@ -38,31 +39,37 @@ exports.create = function (req, res) {
       return res.redirect('/register');
     }
 
-    user = new User({
-      username: req.body.username,
-      username_lower: req.body.username.toLowerCase(),
-      password: req.body.password,
-      email: req.body.email,
-      isAdmin: false
-    });
-
-    user.save(function(err, user) {
+    bcrypt.hash(req.body.password, 8, function(err, hash) {
       if (err) {
         req.flash('error', 'Something went wrong, try again later');
         return res.render('register');
       }
-      activationRequest(req, res, user._id)
-        .then(()=>{
-          req.flash('success', 'User created, please confirm email');
-          return req.query.redirect ? res.redirect(req.query.redirect) : res.render('register');
-        })
-        .catch((err)=>{
-          req.flash('error', err);
+
+      user = new User({
+        username: req.body.username,
+        username_lower: req.body.username.toLowerCase(),
+        password: hash,
+        email: req.body.email,
+        isAdmin: false
+      });
+
+      user.save(function(err, user) {
+        if (err) {
+          req.flash('error', 'Something went wrong, try again later');
           return res.render('register');
-        });
+        }
+
+        activationRequest(req, res, user._id)
+          .then(()=>{
+            req.flash('success', 'User created, please confirm email');
+            return req.query.redirect ? res.redirect(req.query.redirect) : res.render('login');
+          })
+          .catch((err)=>{
+            req.flash('error', err);
+            return res.render('register');
+          });
+      });
     });
-
-
 
   });
 };

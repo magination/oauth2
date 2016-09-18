@@ -28,17 +28,6 @@ var userSchema = new mongoose.Schema({
   isAdmin: {type: Boolean, required: true, default: false}
 });
 
-userSchema.pre('save', function(next) {
-  bcrypt.hash(this.password, 8, function(err, hash) {
-    if (err) {
-      console.log(err);
-    }
-
-    this.password = hash;
-    next()
-  }.bind(this));
-});
-
 userSchema.methods.validPassword = function(password) {
   return bcrypt
     .compareAsync(password, this.password)
