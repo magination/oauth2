@@ -62,7 +62,7 @@ exports.create = function (req, res) {
         activationRequest(req, res, user._id)
           .then(()=>{
             req.flash('success', 'User created, please confirm email');
-            return req.query.redirect ? res.redirect(req.query.redirect) : res.render('login');
+            return res.redirect('/registered');
           })
           .catch((err)=>{
             req.flash('error', err);

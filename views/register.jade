@@ -3,7 +3,7 @@ extend layout
 block content
 	.container
 		!= messages()
-		form(name="register", action="/register?redirect=#{redirect}", method="post", data-toggle="validator", role="form")
+		form(name="register", action="/register", method="post", data-toggle="validator", role="form")
 			h2.form-signing-heading Register
 			div.form-group
 				label(for='username', style='white-space:pre;')

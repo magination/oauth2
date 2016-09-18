@@ -14,7 +14,7 @@ exports.request = (req, res, userId) => new Promise((resolve, reject) => {
   var token = uuid.v4();
   user.findById(userId).exec((err, user)=>{
     if (!user || err){
-      return reject('Something went wrong. Bad user id?');
+      return reject('Something went wrong. Try again later');
     }
     sendAcitvationEmail(req, user.email, token);
     user.confirmEmailToken = token;
@@ -26,7 +26,7 @@ exports.request = (req, res, userId) => new Promise((resolve, reject) => {
 exports.activate = (req, res, token) => new Promise((resolve, reject)=>{
   user.findOne({confirmEmailToken:token}).exec((err, user)=>{
     if (!user || err){
-      return reject('Something went wrong. Bad token?');
+      return reject('Something went wrong. Try again later');
     }
     user.isConfirmed = true;
     user.confirmEmailToken = "";

@@ -24,7 +24,7 @@ passport.use(new LocalStrategy(
       if (err) {
         return done(err);
       }
-      if (!user) {
+      if (!user || !user.isConfirmed) {
         return done(null, false);
       }
       user.validPassword(password)

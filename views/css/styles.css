@@ -3,6 +3,7 @@ li {
 }
 
 .container {
+	margin-top: 50px;
 	width: 380px;
 	text-align: center;
 }
@@ -13,4 +14,13 @@ li {
 
 .error {
 	color: red;
+}
+
+.link-container {
+	margin: auto;
+	width: 250px;
+}
+
+.link {
+	margin: 20px;
 }

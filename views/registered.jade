@@ -1,0 +1,14 @@
+extend layout
+
+block content
+	.container
+		!= messages()
+		form(name="resendEmail", action="/registered", method="post", data-toggle="validator", role="form")
+			p If you can't find your email, you can try to resend it
+			div.form-group
+				label(for='email', style='white-space:pre;')
+					| Email
+				input#email.form-control(name='email', type='email', required='')
+				div(class='help-block with-errors')
+			div.form-group
+				button.btn.btn-lg.btn-primary.btn-block(type='submit', value='resend') Resend email

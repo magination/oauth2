@@ -1,5 +1,6 @@
 var router  = new require('express').Router();
 var controllers =  require('./controllers');
+var user = require('../models/user');
 
 router.get('/:token', function(req, res) {
   controllers.activate(req, res, req.params.token)
