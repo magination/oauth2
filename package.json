@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "main": "./app.js",
   "dependencies": {
-    "bcrypt": "^0.8.6",
+    "bcrypt": "^1.0.0",
     "bluebird": "^3.4.6",
     "body-parser": "^1.15.2",
     "connect-ensure-login": "0.1.x",
