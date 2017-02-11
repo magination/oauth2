@@ -5,7 +5,7 @@
   "dependencies": {
     "bcrypt": "^0.8.6",
     "bluebird": "^3.4.6",
-    "body-parser": "^1.15.2",
+    "body-parser": "^1.16.1",
     "connect-ensure-login": "0.1.x",
     "connect-flash": "^0.1.1",
     "connect-mongodb-session": "^1.1.1",
